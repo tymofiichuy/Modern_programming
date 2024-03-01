@@ -3,7 +3,7 @@ def legendre(a, p):
     print(p)
     print()
     if a == 0:
-        return 0
+        return 2
     if a == 1:
         return 1
     elif a == 2:
