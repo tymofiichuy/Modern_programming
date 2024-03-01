@@ -1,7 +1,7 @@
 def legendre(a, p):
     if a == 0:
         return 0
-    if a == 1:
+    elif a == 1:
         return 1
     elif a == 2:
         return (-1)**((p**2-1)//8)
