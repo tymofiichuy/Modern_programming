@@ -1,7 +1,4 @@
 def legendre(a, p):
-    print(a)
-    print(p)
-    print()
     if a == 0:
         return 2
     if a == 1:
