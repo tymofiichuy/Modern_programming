@@ -1,6 +1,6 @@
 def legendre(a, p):
     if a == 0:
-        return 2
+        return 0
     if a == 1:
         return 1
     elif a == 2:
