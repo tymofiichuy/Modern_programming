@@ -1,13 +1,7 @@
 ﻿#include <iostream>
 #include <windows.h>
-#include <chrono>
+#include <stack>
 using namespace std;
-
-//to do
-//1. input processing +
-//2. error handling +
-//3. basic tests, setting enviroment to run
-//4. handling cyrillic symbols, additional tests -
 
 void name_check(WIN32_FIND_DATAA data, string file, string directory) {
 	if (strcmp(data.cFileName, file.c_str()) == 0) {
@@ -18,27 +12,34 @@ void name_check(WIN32_FIND_DATAA data, string file, string directory) {
 void file_search(string file, string directory) {
 	WIN32_FIND_DATAA data;
 	HANDLE hfind;
+	stack<string> directories;
+	directories.push(directory);
 
-	hfind = FindFirstFileA((directory + "/*").c_str(), &data);
-	if (hfind == INVALID_HANDLE_VALUE) {
-		if (GetLastError() == ERROR_ACCESS_DENIED) {
-			return;
-		}
-		else {
-			throw runtime_error("Directory do not exist.");
-		}
-	}
-	else {
-		while (FindNextFileA(hfind, &data) != 0) {
-			if (data.dwFileAttributes == FILE_ATTRIBUTE_DIRECTORY
-				&& strcmp(data.cFileName, ".") != 0 && strcmp(data.cFileName, "..") != 0) {
-				file_search(file, directory + "/" + data.cFileName);
+	while (!directories.empty()) {
+		directory = directories.top();
+		directories.pop();
+
+		hfind = FindFirstFileA((directory + "/*").c_str(), &data);
+		if (hfind == INVALID_HANDLE_VALUE) {
+			if (GetLastError() == ERROR_ACCESS_DENIED) {
+				continue;
 			}
 			else {
-				name_check(data, file, directory);
+				throw runtime_error("Directory do not exist.");
 			}
 		}
-		FindClose(hfind);
+		else {
+			while (FindNextFileA(hfind, &data) != 0) {
+				if (data.dwFileAttributes == FILE_ATTRIBUTE_DIRECTORY
+					&& strcmp(data.cFileName, ".") != 0 && strcmp(data.cFileName, "..") != 0) {
+					directories.push(directory + "/" + data.cFileName);
+				}
+				else {
+					name_check(data, file, directory);
+				}
+			}
+			FindClose(hfind);
+		}
 	}
 }
 
@@ -76,8 +77,3 @@ int main(int argc, char** argv) {
 	}
 	return 0;
 }
-
-//int main() {
-//	file_search("Example-1.txt", "C:");
-//	return 0;
-//}
