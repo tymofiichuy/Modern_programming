@@ -15,7 +15,7 @@ namespace unittest
 	TEST_CLASS(unittest) {
 public:
 
-	unittest() {
+	TEST_CLASS_INITIALIZE(init) {
 		filesystem::create_directory("C:/test");
 		filesystem::create_directory("C:/test/dir1");
 		filesystem::create_directory("C:/test/dir2");
@@ -28,7 +28,7 @@ public:
 		ofstream outfile5("C:/test/dir3/dir4/test.txt");
 	}
 
-	~unittest() {
+	TEST_CLASS_CLEANUP(clean) {
 		filesystem::remove_all("C:/test");
 	}
 
