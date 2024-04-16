@@ -3,14 +3,13 @@
 #include <stack>
 using namespace std;
 
-void name_check(WIN32_FIND_DATAA data, string file, string directory, bool flag) {
+void name_check(WIN32_FIND_DATAA data, string file, string directory) {
 	if (strcmp(data.cFileName, file.c_str()) == 0) {
 		cout << directory << "/" << data.cFileName << endl;
-		flag = 1;
 	}
 }
 
-void iterative_search(string file, string directory, bool flag) {
+void iterative_search(string file, string directory) {
 	WIN32_FIND_DATAA data;
 	HANDLE hfind;
 	stack<string> directories;
@@ -36,7 +35,7 @@ void iterative_search(string file, string directory, bool flag) {
 					directories.push(directory + "/" + data.cFileName);
 				}
 				else {
-					name_check(data, file, directory, flag);
+					name_check(data, file, directory);
 				}
 			}
 			FindClose(hfind);
@@ -45,7 +44,6 @@ void iterative_search(string file, string directory, bool flag) {
 }
 
 int file_search(int argc, char** argv) {
-	bool flag = 0;
 	if (argc != 3 and argc != 2) {
 		cerr << "Argument do not correspond signature";
 		return 1;
@@ -61,7 +59,7 @@ int file_search(int argc, char** argv) {
 			for (int i = 0; i < 26; i++) {
 				if (drives & (1 << i)) {
 					string drive(1, 'A' + i);
-					iterative_search(file, drive + ":", flag);
+					iterative_search(file, drive + ":");
 				}
 			}
 		}
@@ -70,15 +68,12 @@ int file_search(int argc, char** argv) {
 		string file = string(argv[1], argv[1] + strlen(argv[1]));
 		string directory = string(argv[2], argv[2] + strlen(argv[2]));
 		try {
-			iterative_search(file, directory, flag);
+			iterative_search(file, directory);
 		}
 		catch (runtime_error& e) {
 			cerr << e.what();
 			return 1;
 		}
-	}
-	if (flag == 0) {
-		cout << "File not found";
 	}
 	return 0;
 }
