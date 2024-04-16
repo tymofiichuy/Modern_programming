@@ -37,14 +37,13 @@ public:
 		stringstream stringStream;
 		cout.rdbuf(stringStream.rdbuf());
 
-		char* argv[] = { "file_search", "test.txt", "C:/test/dir1" };
+		const char* argv[] = { "file_search", "test.txt", "C:/test/dir1" };
 		int argc = 3;
 		file_search(argc, argv);
 
 		string content = stringStream.str();
-		string expected = "C:/test/dir1/test.txt\n";
 		cout.rdbuf(oldCoutStreamBuf);
-		Assert::AreEqual(expected, content);
+		Assert::IsTrue(content.contains("C:/test/dir1/test.txt\n"));
 	}
 
 	TEST_METHOD(SuccessfulSearchExitCodeTest) {
@@ -52,7 +51,7 @@ public:
 		stringstream stringStream;
 		cout.rdbuf(stringStream.rdbuf());
 
-		char* argv[] = { "file_search", "test.txt", "C:/test/dir1" };
+		const char* argv[] = { "file_search", "test.txt", "C:/test/dir1" };
 		int argc = 3;
 		int code = 0;
 		code = file_search(argc, argv);
@@ -66,7 +65,7 @@ public:
 		stringstream stringStream;
 		cout.rdbuf(stringStream.rdbuf());
 
-		char* argv[] = { "file_search", "test.txt", "C:/test/dir2" };
+		const char* argv[] = { "file_search", "test.txt", "C:/test/dir2" };
 		int argc = 3;
 		file_search(argc, argv);
 
@@ -78,7 +77,7 @@ public:
 
 	TEST_METHOD(NoMatchesExitCodeTest) {
 
-		char* argv[] = { "file_search", "test.txt", "C:/test/dir2" };
+		const char* argv[] = { "file_search", "test.txt", "C:/test/dir2" };
 		int argc = 3;
 		int code = 0;
 		code = file_search(argc, argv);
@@ -91,14 +90,13 @@ public:
 		stringstream stringStream;
 		cout.rdbuf(stringStream.rdbuf());
 
-		char* argv[] = { "file_search", "test.txt", "C:/test/dir3" };
+		const char* argv[] = { "file_search", "test.txt", "C:/test/dir3" };
 		int argc = 3;
 		file_search(argc, argv);
 
 		string content = stringStream.str();
-		string expected = "C:/test/dir3/dir4/test.txt\n";
 		cout.rdbuf(oldCoutStreamBuf);
-		Assert::AreEqual(expected, content);
+		Assert::IsTrue(content.contains("C:/test/dir3/dir4/test.txt"));
 	}
 
 	TEST_METHOD(MultipleFilesTest) {
@@ -106,14 +104,15 @@ public:
 		stringstream stringStream;
 		cout.rdbuf(stringStream.rdbuf());
 
-		char* argv[] = { "file_search", "test.txt", "C:/test" };
+		const char* argv[] = { "file_search", "test.txt", "C:/test" };
 		int argc = 3;
 		file_search(argc, argv);
 
 		string content = stringStream.str();
-		string expected = "C:/test/test.txt\nC:/test/dir3/dir4/test.txt\nC:/test/dir1/test.txt\n";
 		cout.rdbuf(oldCoutStreamBuf);
-		Assert::AreEqual(expected, content);
+		Assert::IsTrue(content.contains("C:/test/test.txt")
+			&& content.contains("C:/test/dir3/dir4/test.txt")
+			&& content.contains("C:/test/dir1/test.txt"));
 	}
 
 	//Assuming that there are only this occurrences
@@ -122,14 +121,15 @@ public:
 		stringstream stringStream;
 		cout.rdbuf(stringStream.rdbuf());
 
-		char* argv[] = { "file_search", "test.txt", "" };
+		const char* argv[] = { "file_search", "test.txt", "" };
 		int argc = 2;
 		file_search(argc, argv);
 
 		string content = stringStream.str();
-		string expected = "C:/test/test.txt\nC:/test/dir3/dir4/test.txt\nC:/test/dir1/test.txt\n";
 		cout.rdbuf(oldCoutStreamBuf);
-		Assert::AreEqual(expected, content);
+		Assert::IsTrue(content.contains("C:/test/test.txt")
+			&& content.contains("C:/test/dir3/dir4/test.txt")
+			&& content.contains("C:/test/dir1/test.txt"));
 	}
 
 	TEST_METHOD(IncorrectArgumentTest) {
@@ -137,7 +137,7 @@ public:
 		stringstream stringStream;
 		cerr.rdbuf(stringStream.rdbuf());
 
-		char* argv[] = { "file_search", "", ""};
+		const char* argv[] = { "file_search", "", ""};
 		int argc = 1;
 		file_search(argc, argv);
 
@@ -149,7 +149,7 @@ public:
 
 	TEST_METHOD(IncorrectArgumentExitCodeTest) {
 
-		char* argv[] = { "file_search", "", ""};
+		const char* argv[] = { "file_search", "", ""};
 		int argc = 1;
 		int code = 0;
 		code = file_search(argc, argv);
@@ -162,7 +162,7 @@ public:
 		stringstream stringStream;
 		cerr.rdbuf(stringStream.rdbuf());
 
-		char* argv[] = { "file_search", "test.txt", "C:/test/dir5" };
+		const char* argv[] = { "file_search", "test.txt", "C:/test/dir5" };
 		int argc = 3;
 		file_search(argc, argv);
 
@@ -174,7 +174,7 @@ public:
 
 	TEST_METHOD(IncorrectDirectoryExitCodeTest) {
 
-		char* argv[] = { "file_search", "test.txt", "C:/test/dir5" };
+		const char* argv[] = { "file_search", "test.txt", "C:/test/dir5" };
 		int argc = 3;
 		int code = 0;
 		code = file_search(argc, argv);

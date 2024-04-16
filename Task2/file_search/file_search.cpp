@@ -43,7 +43,7 @@ void iterative_search(string file, string directory) {
 	}
 }
 
-int file_search(int argc, char** argv) {
+int file_search(int argc, const char** argv) {
 	if (argc != 3 and argc != 2) {
 		cerr << "Argument do not correspond signature";
 		return 1;
@@ -78,6 +78,6 @@ int file_search(int argc, char** argv) {
 	return 0;
 }
 
-int main(int argc, char** argv) {
+int main(int argc,const char** argv) {
 	return file_search(argc, argv);
 }
