@@ -15,22 +15,22 @@ namespace unittest
 	TEST_CLASS(unittest) {
 public:
 
-	//unittest() {
-	//	filesystem::create_directory("C:/test");
-	//	filesystem::create_directory("C:/test/dir1");
-	//	filesystem::create_directory("C:/test/dir2");
-	//	filesystem::create_directory("C:/test/dir3");
-	//	filesystem::create_directory("C:/test/dir3/dir4");
-	//	ofstream outfile1("C:/test/test.txt");
-	//	ofstream outfile2("C:/test/dir1/test.txt");
-	//	ofstream outfile3("C:/test/dir2/not_test.txt");
-	//	ofstream outfile4("C:/test/dir3/not_test.txt");
-	//	ofstream outfile5("C:/test/dir3/dir4/test.txt");
-	//}
+	unittest() {
+		filesystem::create_directory("C:/test");
+		filesystem::create_directory("C:/test/dir1");
+		filesystem::create_directory("C:/test/dir2");
+		filesystem::create_directory("C:/test/dir3");
+		filesystem::create_directory("C:/test/dir3/dir4");
+		ofstream outfile1("C:/test/test.txt");
+		ofstream outfile2("C:/test/dir1/test.txt");
+		ofstream outfile3("C:/test/dir2/not_test.txt");
+		ofstream outfile4("C:/test/dir3/not_test.txt");
+		ofstream outfile5("C:/test/dir3/dir4/test.txt");
+	}
 
-	//~unittest() {
-	//	filesystem::remove_all("C:/test");
-	//}
+	~unittest() {
+		filesystem::remove_all("C:/test");
+	}
 
 	TEST_METHOD(OnlyOneFileInFirstDirTest) {
 		streambuf* oldCoutStreamBuf = cout.rdbuf();
@@ -48,12 +48,16 @@ public:
 	}
 
 	TEST_METHOD(SuccessfulSearchExitCodeTest) {
+		streambuf* oldCoutStreamBuf = cout.rdbuf();
+		stringstream stringStream;
+		cout.rdbuf(stringStream.rdbuf());
 
 		char* argv[] = { "file_search", "test.txt", "C:/test/dir1" };
 		int argc = 3;
 		int code = 0;
 		code = file_search(argc, argv);
 
+		cout.rdbuf(oldCoutStreamBuf);
 		Assert::AreEqual(code, 0);
 	}
 
@@ -118,12 +122,12 @@ public:
 		stringstream stringStream;
 		cout.rdbuf(stringStream.rdbuf());
 
-		char* argv[] = { "file_search", "test.txt" };
-		int argc = 3;
+		char* argv[] = { "file_search", "test.txt", "" };
+		int argc = 2;
 		file_search(argc, argv);
 
 		string content = stringStream.str();
-		string expected = "C:/test/test.txt\nC:/test/dir1/test.txt\nC:/test/dir3/dir4/test.txt\n";
+		string expected = "C:/test/test.txt\nC:/test/dir3/dir4/test.txt\nC:/test/dir1/test.txt\n";
 		cout.rdbuf(oldCoutStreamBuf);
 		Assert::AreEqual(expected, content);
 	}
@@ -133,8 +137,8 @@ public:
 		stringstream stringStream;
 		cerr.rdbuf(stringStream.rdbuf());
 
-		char* argv[] = { "file_search" };
-		int argc = 3;
+		char* argv[] = { "file_search", "", ""};
+		int argc = 1;
 		file_search(argc, argv);
 
 		string content = stringStream.str();
@@ -145,8 +149,8 @@ public:
 
 	TEST_METHOD(IncorrectArgumentExitCodeTest) {
 
-		char* argv[] = { "file_search" };
-		int argc = 3;
+		char* argv[] = { "file_search", "", ""};
+		int argc = 1;
 		int code = 0;
 		code = file_search(argc, argv);
 
