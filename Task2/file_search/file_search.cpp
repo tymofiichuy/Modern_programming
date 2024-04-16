@@ -3,13 +3,14 @@
 #include <stack>
 using namespace std;
 
-void name_check(WIN32_FIND_DATAA data, string file, string directory) {
+void name_check(WIN32_FIND_DATAA data, string file, string directory, bool flag) {
 	if (strcmp(data.cFileName, file.c_str()) == 0) {
 		cout << directory << "/" << data.cFileName << endl;
+		flag = 1;
 	}
 }
 
-void file_search(string file, string directory) {
+void iterative_search(string file, string directory, bool flag) {
 	WIN32_FIND_DATAA data;
 	HANDLE hfind;
 	stack<string> directories;
@@ -25,7 +26,7 @@ void file_search(string file, string directory) {
 				continue;
 			}
 			else {
-				throw runtime_error("Directory do not exist.");
+				throw runtime_error("Directory do not exist");
 			}
 		}
 		else {
@@ -35,7 +36,7 @@ void file_search(string file, string directory) {
 					directories.push(directory + "/" + data.cFileName);
 				}
 				else {
-					name_check(data, file, directory);
+					name_check(data, file, directory, flag);
 				}
 			}
 			FindClose(hfind);
@@ -43,9 +44,10 @@ void file_search(string file, string directory) {
 	}
 }
 
-int main(int argc, char** argv) {
+int file_search(int argc, char** argv) {
+	bool flag = 0;
 	if (argc != 3 and argc != 2) {
-		cerr << "Argument do not correspond signature.";
+		cerr << "Argument do not correspond signature";
 		return 1;
 	}
 	else if (argc == 2) {
@@ -59,7 +61,7 @@ int main(int argc, char** argv) {
 			for (int i = 0; i < 26; i++) {
 				if (drives & (1 << i)) {
 					string drive(1, 'A' + i);
-					file_search(file, drive + ":");
+					iterative_search(file, drive + ":", flag);
 				}
 			}
 		}
@@ -68,12 +70,19 @@ int main(int argc, char** argv) {
 		string file = string(argv[1], argv[1] + strlen(argv[1]));
 		string directory = string(argv[2], argv[2] + strlen(argv[2]));
 		try {
-			file_search(file, directory);
+			iterative_search(file, directory, flag);
 		}
 		catch (runtime_error& e) {
 			cerr << e.what();
 			return 1;
 		}
 	}
+	if (flag == 0) {
+		cout << "File not found";
+	}
 	return 0;
+}
+
+int main(int argc, char** argv) {
+	return file_search(argc, argv);
 }
