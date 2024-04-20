@@ -5,13 +5,13 @@ using namespace std;
 
 class encrypyion_strategy {
 public:
-    virtual char* encryption(char* plaintext, int key) = 0;
-    virtual char* decryption(char* ciphertext, int key) = 0;
+    virtual char* encryption(const char* plaintext, int key) = 0;
+    virtual char* decryption(const char* ciphertext, int key) = 0;
 };
 
 class caesar_cipher : public encrypyion_strategy {
 public:
-    char* encryption(char* plaintext, int key) {
+    char* encryption(const char* plaintext, int key) {
         int len = strlen(plaintext);
         char* ciphertext = new char[len + 1];
         for (int i = 0; i < len; i++) {
@@ -31,7 +31,7 @@ public:
         return ciphertext;
     }
 
-    char* decryption(char* ciphertext, int key) {
+    char* decryption(const char* ciphertext, int key) {
         int len = strlen(ciphertext);
         char* plaintext = new char[len + 1];
         for (int i = 0; i < len; i++) {
@@ -53,7 +53,7 @@ public:
 };
 
 class rail_fence_cipher : public encrypyion_strategy {
-    char* encryption(char* plaintext, int key) {
+    char* encryption(const char* plaintext, int key) {
         int len = strlen(plaintext);
         char* ciphertext = new char[len + 1];
         int cycle = 2*key - 2;
@@ -69,7 +69,7 @@ class rail_fence_cipher : public encrypyion_strategy {
         return ciphertext;
     }
 
-    char* decryption(char* ciphertext, int key) {
+    char* decryption(const char* ciphertext, int key) {
         int len = strlen(ciphertext);
         char* plaintext = new char[len + 1];
         int cycle = 2*key - 2;
@@ -100,64 +100,70 @@ public:
         delete this->strategy;
         this->strategy = strategy;
     }
-    char* encryption(char* text, int key) {
+    char* encryption(const char* text, int key) {
         return this->strategy->encryption(text, key);
     }
-    char* decryption(char* text, int key) {
+    char* decryption(const char* text, int key) {
         return this->strategy->decryption(text, key);
     }
 };
 
 //Input signature: strategy, function, text, key
-int text_processing(int argc, char** argv) {
-    encrypyion_strategy* strategy;
-    if (strcmp(argv[1], "caesar_cipher") == 0) {
-        strategy = new caesar_cipher();
-    }
-    else if (strcmp(argv[1], "rail_fence_cipher") == 0) {
-        strategy = new rail_fence_cipher();
-    }
-    else {
-        cerr << "Incorrect strategy";
+int text_processing(int argc,const char** argv) {
+    if (argc != 5) {
+        cerr << "Incorrect input signature";
         return 1;
     }
-    text_processor processor(strategy);
-    
-    int key;
-    if (atoi(argv[4]) != 0) {
-        key = atoi(argv[4]);
-    }
     else {
-        cerr << "Incorrect key format";
-        return 1;
-    }
+        encrypyion_strategy* strategy;
+        if (strcmp(argv[1], "caesar_cipher") == 0) {
+            strategy = new caesar_cipher();
+        }
+        else if (strcmp(argv[1], "rail_fence_cipher") == 0) {
+            strategy = new rail_fence_cipher();
+        }
+        else {
+            cerr << "Incorrect strategy";
+            return 1;
+        }
+        text_processor processor(strategy);
 
-    if (strcmp(argv[2], "encryption") == 0) {
-        try {
-            cout << processor.encryption(argv[3], key);
+        int key;
+        if (atoi(argv[4]) != 0) {
+            key = atoi(argv[4]);
         }
-        catch (runtime_error& e) {
-            cerr << e.what();
+        else {
+            cerr << "Incorrect key format";
             return 1;
         }
-        return 0;
-    }
-    else if (strcmp(argv[2], "decryption") == 0) {
-        try {
-            cout << processor.decryption(argv[3], key);
+
+        if (strcmp(argv[2], "encryption") == 0) {
+            try {
+                cout << processor.encryption(argv[3], key);
+            }
+            catch (runtime_error& e) {
+                cerr << e.what();
+                return 1;
+            }
+            return 0;
         }
-        catch (runtime_error& e) {
-            cerr << e.what();
+        else if (strcmp(argv[2], "decryption") == 0) {
+            try {
+                cout << processor.decryption(argv[3], key);
+            }
+            catch (runtime_error& e) {
+                cerr << e.what();
+                return 1;
+            }
+            return 0;
+        }
+        else {
+            cerr << "Incorrect function";
             return 1;
         }
-        return 0;
-    }
-    else {
-        cerr << "Incorrect function";
-        return 1;
     }
 }
 
-int main(int argc, char** argv) {
+int main(int argc,const char** argv) {
     return text_processing(argc, argv);
 }
