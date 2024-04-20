@@ -90,13 +90,13 @@ class rail_fence_cipher : public encryption_strategy {
 
 class text_processor {
 private:
-    encrypyion_strategy* strategy;
+    encryption_strategy* strategy;
 public:
-    text_processor(encrypyion_strategy* strategy = nullptr) : strategy(strategy) {};
+    text_processor(encryption_strategy* strategy = nullptr) : strategy(strategy) {};
     ~text_processor() {
         delete this->strategy;
     }
-    void set_strategy(encrypyion_strategy* strategy) {
+    void set_strategy(encryption_strategy* strategy) {
         delete this->strategy;
         this->strategy = strategy;
     }
