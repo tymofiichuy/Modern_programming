@@ -3,13 +3,13 @@
 
 using namespace std;
 
-class encrypyion_strategy {
+class encryption_strategy {
 public:
     virtual char* encryption(const char* plaintext, int key) = 0;
     virtual char* decryption(const char* ciphertext, int key) = 0;
 };
 
-class caesar_cipher : public encrypyion_strategy {
+class caesar_cipher : public encryption_strategy {
 public:
     char* encryption(const char* plaintext, int key) {
         int len = strlen(plaintext);
@@ -52,7 +52,7 @@ public:
     }
 };
 
-class rail_fence_cipher : public encrypyion_strategy {
+class rail_fence_cipher : public encryption_strategy {
     char* encryption(const char* plaintext, int key) {
         int len = strlen(plaintext);
         char* ciphertext = new char[len + 1];
@@ -115,7 +115,7 @@ int text_processing(int argc,const char** argv) {
         return 1;
     }
     else {
-        encrypyion_strategy* strategy;
+        encryption_strategy* strategy;
         if (strcmp(argv[1], "caesar_cipher") == 0) {
             strategy = new caesar_cipher();
         }
