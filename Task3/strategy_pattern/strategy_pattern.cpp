@@ -9,7 +9,7 @@ public:
     virtual char* decryption(char* ciphertext, int key) = 0;
 };
 
-class caesar_cipher : encrypyion_strategy {
+class caesar_cipher : public encrypyion_strategy {
 public:
     char* encryption(char* plaintext, int key) {
         int len = strlen(plaintext);
@@ -24,8 +24,7 @@ public:
                 }
             }
             else {
-                cerr << "Unsupported text";
-                return nullptr;
+                throw runtime_error ("Unsupported text");
             }
         }
         ciphertext[len] = '\0';
@@ -45,8 +44,7 @@ public:
                 }
             }
             else {
-                cerr << "Unsupported text";
-                return nullptr;
+                throw runtime_error("Unsupported text");
             }
         }
         plaintext[len] = '\0';
@@ -54,7 +52,7 @@ public:
     }
 };
 
-class rail_fence_cipher : encrypyion_strategy {
+class rail_fence_cipher : public encrypyion_strategy {
     char* encryption(char* plaintext, int key) {
         int len = strlen(plaintext);
         char* ciphertext = new char[len + 1];
@@ -103,13 +101,63 @@ public:
         this->strategy = strategy;
     }
     char* encryption(char* text, int key) {
-        this->strategy->encryption(text, key);
+        return this->strategy->encryption(text, key);
     }
     char* decryption(char* text, int key) {
-        this->strategy->decryption(text, key);
+        return this->strategy->decryption(text, key);
     }
 };
 
-int main() {
+//Input signature: strategy, function, text, key
+int text_processing(int argc, char** argv) {
+    encrypyion_strategy* strategy;
+    if (strcmp(argv[1], "caesar_cipher") == 0) {
+        strategy = new caesar_cipher();
+    }
+    else if (strcmp(argv[1], "rail_fence_cipher") == 0) {
+        strategy = new rail_fence_cipher();
+    }
+    else {
+        cerr << "Incorrect strategy";
+        return 1;
+    }
+    text_processor processor(strategy);
     
+    int key;
+    if (atoi(argv[4]) != 0) {
+        key = atoi(argv[4]);
+    }
+    else {
+        cerr << "Incorrect key format";
+        return 1;
+    }
+
+    if (strcmp(argv[2], "encryption") == 0) {
+        try {
+            cout << processor.encryption(argv[3], key);
+        }
+        catch (runtime_error& e) {
+            cerr << e.what();
+            return 1;
+        }
+        return 0;
+    }
+    else if (strcmp(argv[2], "decryption") == 0) {
+        try {
+            cout << processor.decryption(argv[3], key);
+        }
+        catch (runtime_error& e) {
+            cerr << e.what();
+            return 1;
+        }
+        return 0;
+    }
+    else {
+        cerr << "Incorrect function";
+        return 1;
+    }
+}
+
+int main(int argc, char** argv) {
+    return text_processing(argc, argv);
 }
