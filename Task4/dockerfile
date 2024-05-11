@@ -1,4 +1,6 @@
-FROM euantorano/zig:latest
+FROM alpine:latest
+
+RUN apk add --no-cache zig docker
 
 WORKDIR /test
 
