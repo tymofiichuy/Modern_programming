@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-RUN apk add --no-cache zig docker
+RUN apk update && add --no-cache zig docker
 
 WORKDIR /test
 
