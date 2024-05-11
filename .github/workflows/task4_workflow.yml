@@ -27,7 +27,7 @@ jobs:
     - name: Build Docker image
       run: |
         docker build -t zig-test - <<EOF
-        FROM chainguard/zig
+        FROM euantorano/zig
         WORKDIR /app
         COPY . .
         CMD zig test ./Task4/*.zig
