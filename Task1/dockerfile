@@ -2,9 +2,7 @@ FROM python:3.10-slim
 
 WORKDIR /test
 
-COPY requirements.txt Task1
-RUN pip install --no-cache-dir -r Task1/requirements.txt
-
 COPY Task1 /test
+RUN pip install --no-cache-dir -r Task1/requirements.txt
 
 CMD ["pytest", "./test.py"]
