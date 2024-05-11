@@ -34,4 +34,4 @@ jobs:
         EOF
 
     - name: Run Zig tests
-      run: docker run zigtest
+      run: docker run zig-test
