@@ -16,10 +16,13 @@ fn alloc_var_on_heap() void {
     }
 }
 
+//Function infinitely allocates memory on stack, but due to variable lifetime this
+//can't cause overflow. This test should fail
 test "stack_allocation_test" {
     try std.testing.expectError(error.OutOfMemory, alloc_var_on_stack());
 }
 
+//Function infinitely allocates memory on heap, which will run out memory
 test "heap_allocation_test" {
     try std.testing.expectError(error.OutOfMemory, alloc_var_on_heap());
 }
