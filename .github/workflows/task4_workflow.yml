@@ -34,4 +34,4 @@ jobs:
         tags: zig-test:latest
 
     - name: Run Zig tests
-      run: docker run --memory 4g zig-test:latest
+      run: docker run --memory 4g zig-test:latest zig test ./Task4/*.zig
