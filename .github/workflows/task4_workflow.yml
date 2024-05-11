@@ -29,7 +29,7 @@ jobs:
         docker build -t zig-test - <<EOF
         FROM chainguard/zig
         WORKDIR /app
-        COPY ../Task4 .
+        COPY Task4 .
         CMD ["zig", "test", "./Task4/*.zig"]
         EOF
 
