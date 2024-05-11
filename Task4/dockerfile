@@ -1,13 +1,7 @@
-FROM ubuntu:latest
-
-RUN apt-get update && apt-get install -y wget
-RUN wget https://ziglang.org/download/index.json
-RUN ZIG_VERSION=$(jq -r '.master."x86_64-linux".tarball' index.json)
-RUN wget -O zig.tar.xz $ZIG_VERSION
-RUN tar -xf zig.tar.xz --strip-components=1 -C /usr/local
-
-COPY Task4 /test
+FROM euantorano/zig:latest
 
 WORKDIR /test
+
+COPY Task4 /test
 
 CMD ["zig", "build", "test", "./Task4/*.zig"]
