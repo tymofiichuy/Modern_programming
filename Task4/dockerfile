@@ -1,0 +1,7 @@
+FROM euantorano/zig:latest
+
+WORKDIR /test
+
+COPY Task4 /test
+
+CMD ["zig", "test", "./Task4/*.zig"]
