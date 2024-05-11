@@ -30,7 +30,7 @@ jobs:
         FROM euantorano/zig
         WORKDIR /app
         COPY . .
-        CMD ["zig", "test", "./Task4/*.zig"]
+        CMD ["test", "./Task4/*.zig"]
         EOF
 
     - name: Run Zig tests
