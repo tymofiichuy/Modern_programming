@@ -21,9 +21,6 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Set up Zig
-      uses: goto-bus-stop/setup-zig@v2
-
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
 
