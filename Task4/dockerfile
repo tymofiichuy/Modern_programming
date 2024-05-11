@@ -4,4 +4,4 @@ WORKDIR /test
 
 COPY Task4 /test
 
-CMD ["/bin/sh", "-c", "zig test ./Task4/*.zig"]
+CMD ["zig", "build", "test", "./Task4/*.zig"]
