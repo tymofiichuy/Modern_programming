@@ -31,6 +31,7 @@ jobs:
         file: ./Task4/dockerfile
         push: false
         load: true
+        tags: zig-test:latest
 
     - name: Run Zig tests
-      run: docker run --memory 4g --name zig_test_container ${{ steps.docker_build.outputs.image }}
+      run: docker run --memory 4g zig-test:latest
