@@ -1,0 +1,37 @@
+name: Task4 workflow
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'Task4/**'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'Task4/**'
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Build Docker image
+      run: |
+        docker build -t zig-test - <<EOF
+        FROM ziglang/zig:0.8.0
+        WORKDIR /app
+        COPY . .
+        CMD ["zig", "test", "./src/*.zig"]
+        EOF
+
+    - name: Run Zig tests
+      run: docker run zig-test
