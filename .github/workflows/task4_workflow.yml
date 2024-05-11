@@ -30,7 +30,7 @@ jobs:
         FROM ziglang/zig:0.8.0
         WORKDIR /app
         COPY . .
-        CMD ["zig", "test", "./Task4/src/*.zig"]
+        CMD ["zig", "test", "./Task4/*.zig"]
         EOF
 
     - name: Run Zig tests
