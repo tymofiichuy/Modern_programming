@@ -27,9 +27,9 @@ jobs:
     - name: Build Docker image
       run: |
         docker build -t zig-test - <<EOF
-        FROM ziglang/zig:0.8.0
+        FROM chainguard/zig
         WORKDIR /app
-        COPY . .
+        COPY ../Test4
         CMD ["zig", "test", "./Task4/*.zig"]
         EOF
 
