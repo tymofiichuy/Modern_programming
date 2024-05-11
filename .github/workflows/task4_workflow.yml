@@ -12,7 +12,7 @@ on:
     paths:
       - 'Task4/**'
   workflow_dispatch:
-
+    
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -33,4 +33,4 @@ jobs:
         load: true
 
     - name: Run Zig tests
-      run: docker run ${{ steps.docker_build.outputs.image }}
+      run: docker run --memory 4g --name zig_test_container ${{ steps.docker_build.outputs.image }}
