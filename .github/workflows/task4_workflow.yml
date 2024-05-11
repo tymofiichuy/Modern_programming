@@ -30,8 +30,8 @@ jobs:
         FROM chainguard/zig
         WORKDIR /app
         COPY . .
-        CMD ["zig", "test", "./Task4/*.zig"]
+        CMD zig test ./Task4/*.zig
         EOF
 
     - name: Run Zig tests
-      run: docker run zig-test
+      run: docker run zigtest
