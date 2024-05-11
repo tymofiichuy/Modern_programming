@@ -1,9 +1,7 @@
-FROM alpine:latest
-
-RUN apk update && add --no-cache zig docker
+FROM euantorano/zig:latest
 
 WORKDIR /test
 
 COPY Task4 /test
 
-CMD ["zig", "test", "./Task4/*.zig"]
+CMD ["zig", "build", "test", "./Task4/*.zig"]
