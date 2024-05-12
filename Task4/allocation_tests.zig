@@ -4,24 +4,24 @@ const std = @import("std");
 //    try stack_overflow();
 //}
 
-//fn alloc_var_on_heap() !void {
-//    const allocator = std.heap.page_allocator;
-//    while (true) {
-//        const ptr = try allocator.alloc(u8, 1024);
-//        ptr[0] = 1;
-//    }
-//}
-
 fn alloc_var_on_heap() anyerror!void {
     const allocator = std.heap.page_allocator;
     while (true) {
-        var ptr: []u8 = undefined;
-        ptr = try allocator.alloc(u8, 1024) catch |err| {
-            return err;
-        };
+        const ptr = try allocator.alloc(u8, 1024);
         ptr[0] = 1;
     }
 }
+
+//fn alloc_var_on_heap() anyerror!void {
+//    const allocator = std.heap.page_allocator;
+//    while (true) {
+//        var ptr: []u8 = undefined;
+//        ptr = try allocator.alloc(u8, 1024) catch |err| {
+//            return err;
+//        };
+//        ptr[0] = 1;
+//    }
+//}
 
 //test "stack_allocation_test" {
 //    std.testing.expectError(error.OutOfMemory, stack_overflow());
