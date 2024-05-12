@@ -25,10 +25,6 @@ fn return_address_array(arr: [2]u8) *const u8 {
     return &arr[0];
 }
 
-//fn add_1(int: u8) !void {
-//    int = int + 1;
-//}
-
 test "integer_passed_by_value" {
     const int: u8 = 2;
     const actual: *const u8 = &int;
@@ -61,8 +57,12 @@ test "array_passed_by_value" {
     std.testing.expect(actual != returned);
 }
 
-//test "change_value_inside_function" {
-//    var int: u8 = 0;
-//    try add_1(int);
-//    std.testing.expect(int == 0);
-//}
+fn add_1(int: u8) !void {
+    int = int + 1;
+}
+
+test "change_value_inside_function" {
+    var int: u8 = 0;
+    try add_1(int);
+    std.testing.expect(int == 0);
+}
