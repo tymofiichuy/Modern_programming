@@ -1,16 +1,6 @@
 name: Task4 workflow
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'Task4/**'
-  pull_request:
-    branches:
-      - main
-    paths:
-      - 'Task4/**'
   workflow_dispatch:
     
 jobs:
