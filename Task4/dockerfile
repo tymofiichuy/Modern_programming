@@ -4,4 +4,4 @@ WORKDIR /test
 
 COPY Task4 /test
 
-CMD ["test", "./Task4/var_types_tests.zig"]
+CMD ["test", "./*.zig"]
