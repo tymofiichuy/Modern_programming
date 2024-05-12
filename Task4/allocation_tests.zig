@@ -1,6 +1,7 @@
 const std = @import("std");
-var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-const allocator = gpa.allocator();
+//var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+//const allocator = gpa.allocator();
+const allocator = std.mem.Allocator;
 
 //fn stack_overflow() !void {
 //    try stack_overflow();
