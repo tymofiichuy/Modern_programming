@@ -12,18 +12,12 @@ const std = @import("std");
 //    }
 //}
 
-fn alloc_var_on_heap() void {
+fn alloc_var_on_heap() anyerror!void {
     const allocator = std.heap.page_allocator;
     while (true) {
         var ptr: []u8 = undefined;
         ptr = allocator.alloc(u8, 1024) catch |err| {
-            switch (err) {
-                error.OutOfMemory => {
-                    std.debug.warn("Caught an OutOfMemory error.\n");
-                    return;
-                },
-                else => {},
-            }
+            return err
         };
         ptr[0] = 1;
     }
