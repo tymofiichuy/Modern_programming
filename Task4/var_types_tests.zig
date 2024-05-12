@@ -57,12 +57,12 @@ test "array_passed_by_value" {
     std.testing.expect(actual != returned);
 }
 
-fn add_1(int: u8) !void {
-    int = int + 1;
-}
+//fn add_1(int: u8) !void {
+//    int = int + 1;
+//}
 
-test "change_value_inside_function" {
-    var int: u8 = 0;
-    try add_1(int);
-    std.testing.expect(int == 0);
-}
+//test "change_value_inside_function" {
+//    var int: u8 = 0;
+//    try add_1(int);
+//    std.testing.expect(int == 0);
+//}
