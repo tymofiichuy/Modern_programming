@@ -30,7 +30,7 @@ test "integer_passed_by_value" {
     const actual: *const u8 = &int;
     const returned: *const u8 = return_address_int(int);
 
-    try std.testing.expect(actual != returned);
+    std.testing.expect(actual != returned);
 }
 
 test "integer_passed_as_pointer" {
@@ -38,7 +38,7 @@ test "integer_passed_as_pointer" {
     const actual: *const u8 = &int;
     const returned: *const u8 = return_address_int_by_pointer(&int);
 
-    try std.testing.expect(actual == returned);
+    std.testing.expect(actual == returned);
 }
 
 test "struct_passed_by_value" {
@@ -46,7 +46,7 @@ test "struct_passed_by_value" {
     const actual: *const point = &p;
     const returned: *const point = return_address_struct(p);
 
-    try std.testing.expect(actual != returned);
+    std.testing.expect(actual != returned);
 }
 
 test "array_passed_by_value" {
@@ -54,5 +54,5 @@ test "array_passed_by_value" {
     const actual: *const u8 = &arr[0];
     const returned: *const u8 = return_address_array(arr);
 
-    try std.testing.expect(actual != returned);
+    std.testing.expect(actual != returned);
 }
