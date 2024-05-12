@@ -14,9 +14,9 @@ fn alloc_var_on_heap() void {
 }
 
 test "stack_allocation_test" {
-    try std.testing.expectError(error.OutOfMemory, stack_overflow());
+    std.testing.expectError(error.OutOfMemory, stack_overflow());
 }
 
 test "heap_allocation_test" {
-    try std.testing.expectError(error.OutOfMemory, alloc_var_on_heap());
+    std.testing.expectError(error.OutOfMemory, alloc_var_on_heap());
 }
