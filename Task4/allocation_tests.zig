@@ -1,13 +1,14 @@
 const std = @import("std");
 //var gpa = std.heap.GeneralPurposeAllocator(.{}){};
 //const allocator = gpa.allocator();
-const Allocator = std.mem.Allocator;
+//const allocator = std.mem.Allocator;
 
 //fn stack_overflow() !void {
 //    try stack_overflow();
 //}
 
-fn alloc_var_on_heap(allocator: *Allocator) !void {
+fn alloc_var_on_heap(allocator: *std.mem.allocator) !void {
+    var allocator = std.heap.page_allocator;
     while (true) {
         const ptr = try allocator.alloc(u8, 1024);
         ptr[0] = 1;
