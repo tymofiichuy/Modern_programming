@@ -27,10 +27,10 @@ fn alloc_var_on_heap() anyerror!void {
 //    std.testing.expectError(error.OutOfMemory, stack_overflow());
 //}
 
-//test "heap_allocation_test" {
-//    std.testing.expectError(error.OutOfMemory, alloc_var_on_heap());
-//}
-
 test "heap_allocation_test" {
-    alloc_var_on_heap();
+    std.testing.expectError(error.OutOfMemory, alloc_var_on_heap());
 }
+
+//test "heap_allocation_test" {
+//    alloc_var_on_heap();
+//}
