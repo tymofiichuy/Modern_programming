@@ -16,7 +16,7 @@ fn alloc_var_on_heap() anyerror!void {
     const allocator = std.heap.page_allocator;
     while (true) {
         var ptr: []u8 = undefined;
-        ptr = allocator.alloc(u8, 1024) catch |err| {
+        ptr = try allocator.alloc(u8, 1024) catch |err| {
             return err;
         };
         ptr[0] = 1;
