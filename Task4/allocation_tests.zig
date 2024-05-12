@@ -7,7 +7,7 @@ const std = @import("std");
 //    try stack_overflow();
 //}
 
-fn alloc_var_on_heap(allocator: *std.mem.allocator) !void {
+fn alloc_var_on_heap() !void {
     const allocator = std.heap.page_allocator;
     while (true) {
         const ptr = try allocator.alloc(u8, 1024);
