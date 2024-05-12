@@ -8,7 +8,7 @@ const std = @import("std");
 //}
 
 fn alloc_var_on_heap(allocator: *std.mem.allocator) !void {
-    var allocator = std.heap.page_allocator;
+    const allocator = std.heap.page_allocator;
     while (true) {
         const ptr = try allocator.alloc(u8, 1024);
         ptr[0] = 1;
