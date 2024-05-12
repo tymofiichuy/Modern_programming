@@ -2,9 +2,9 @@ const std = @import("std");
 var gpa = std.heap.GeneralPurposeAllocator(.{}){};
 const allocator = gpa.allocator();
 
-fn stack_overflow() !void {
-    try stack_overflow();
-}
+//fn stack_overflow() !void {
+//    try stack_overflow();
+//}
 
 fn alloc_var_on_heap() !void {
     while (true) {
@@ -17,6 +17,6 @@ fn alloc_var_on_heap() !void {
 //    std.testing.expectError(error.OutOfMemory, stack_overflow());
 //}
 
-//test "heap_allocation_test" {
-//    std.testing.expectError(error.OutOfMemory, alloc_var_on_heap());
-//}
+test "heap_allocation_test" {
+    std.testing.expectError(error.OutOfMemory, alloc_var_on_heap());
+}
