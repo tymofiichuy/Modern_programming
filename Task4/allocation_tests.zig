@@ -17,7 +17,7 @@ fn alloc_var_on_heap() anyerror!void {
     while (true) {
         var ptr: []u8 = undefined;
         ptr = allocator.alloc(u8, 1024) catch |err| {
-            return err
+            return err;
         };
         ptr[0] = 1;
     }
