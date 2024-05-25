@@ -14,6 +14,8 @@ provider "aws" {
     lambda = "http://localhost:4566"
     sts = "http://localhost:4566"
     iam = "http://localhost:4566"
+    sns = "http://localhost:4566"
+    sqs = "http://localhost:4566"
   }
 }
 
@@ -117,4 +119,24 @@ resource "aws_s3_bucket_notification" "bucket_notification" {
     lambda_function_arn = aws_lambda_function.lambda_function.arn
     events = ["s3:ObjectCreated:*"]
   }
+
+  topic {
+    topic_arn = aws_sns_topic.uploads.arn
+
+    events = ["s3:ObjectCreated:*"]    
+  }
+}
+
+resource "aws_sns_topic" "uploads" {
+  name = "uploads"
+}
+
+resource "aws_sqs_queue" "uploaded_files" {
+  name = "uploaded-files"
+}
+
+resource "aws_sns_topic_subscription" "sqs_subscription" {
+  topic_arn = aws_sns_topic.uploads.arn
+  protocol  = "sqs"
+  endpoint  = aws_sqs_queue.uploaded_files.arn
 }
